@@ -1,7 +1,6 @@
 package plodsoft.automation.renderers;
 
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.item.ItemStack;
 import plodsoft.automation.tileentities.TileEntityFeeder;
 import net.minecraft.client.Minecraft;

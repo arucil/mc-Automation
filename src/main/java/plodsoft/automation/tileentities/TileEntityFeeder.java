@@ -1,32 +1,69 @@
 package plodsoft.automation.tileentities;
 
+import com.google.common.collect.Sets;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class TileEntityFeeder extends TileEntityTickable {
+public class TileEntityFeeder extends TileEntityTickable implements IInventory {
    public static final int RANGE = 4;
    public static final int SIZE = 4096;
+
+   private static final Set<Item> ANIMAL_FOODS = Sets.newHashSet(new Item[] {
+         Items.GOLDEN_APPLE, Items.GOLDEN_CARROT, Items.BEETROOT,
+         Items.WHEAT_SEEDS, Items.WHEAT, Items.CARROT, Items.POTATO,
+         Items.PUMPKIN_SEEDS, Items.MELON_SEEDS, Items.BEETROOT_SEEDS,
+         Items.PORKCHOP, Items.COOKED_PORKCHOP, Items.BEEF, Items.COOKED_BEEF,
+         Items.CHICKEN, Items.COOKED_CHICKEN, Items.RABBIT, Items.COOKED_RABBIT,
+         Items.MUTTON, Items.ROTTEN_FLESH, Items.COOKED_MUTTON, Items.FISH,
+   });
 
    public ItemStack stack;
 
    public TileEntityFeeder() {
       super(60);
-      stack = new ItemStack(Items.WHEAT);
    }
 
    @Override
    public void onEntityUpdate() {
-      List<EntityAnimal> animals = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
-            new AxisAlignedBB(pos.add(-RANGE, -RANGE, -1),
-                  pos.add(RANGE, RANGE, 1)),
-            x -> !(x.isInLove() || x.isChild()));
+      ItemStack stack1 = stack;
+      if (null == stack1)
+         return;
+      List<EntityAnimal> list = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
+            new AxisAlignedBB(pos.add(-RANGE, -2, -RANGE),
+                  pos.add(RANGE, 2, RANGE)),
+            x -> !(x.isInLove() || x.isChild()) && x.isBreedingItem(stack1));
+      if (!list.isEmpty()) {
+         for (EntityAnimal animal : list) {
+            animal.setInLove(null);
+            if (--stack1.stackSize <= 0) {
+               stack = null;
+               IBlockState state = worldObj.getBlockState(getPos());
+               worldObj.notifyBlockUpdate(getPos(), state, state, 0);
+               break;
+            }
+         }
+         markDirty();
+      }
    }
 
    @Override
@@ -61,4 +98,102 @@ public class TileEntityFeeder extends TileEntityTickable {
       readFromNBT(packet.getNbtCompound());
    }
 
+   @Override
+   public int getSizeInventory() {
+      return 1;
+   }
+
+   @Nullable
+   @Override
+   public ItemStack getStackInSlot(int index) {
+      return null;
+   }
+
+   @Nullable
+   @Override
+   public ItemStack decrStackSize(int index, int count) {
+      return null;
+   }
+
+   @Nullable
+   @Override
+   public ItemStack removeStackFromSlot(int index) {
+      return null;
+   }
+
+   @Override
+   public void setInventorySlotContents(int index, @Nullable ItemStack stack1) {
+      markDirty();
+      if (null == stack) {
+         stack = stack1.copy();
+         stack1.stackSize = 0;
+         IBlockState state = worldObj.getBlockState(getPos());
+         worldObj.notifyBlockUpdate(getPos(), state, state, 0);
+      } else {
+         int limit = SIZE - stack.stackSize;
+         if (stack1.stackSize > limit) {
+            stack.stackSize += limit;
+            stack1.stackSize -= limit;
+         } else {
+            stack.stackSize += stack1.stackSize;
+            stack1.stackSize = 0;
+         }
+      }
+   }
+
+   @Override
+   public int getInventoryStackLimit() {
+      return SIZE;
+   }
+
+   @Override
+   public boolean isUseableByPlayer(EntityPlayer player) {
+      return false;
+   }
+
+   @Override
+   public void openInventory(EntityPlayer player) {
+
+   }
+
+   @Override
+   public void closeInventory(EntityPlayer player) {
+
+   }
+
+   @Override
+   public boolean isItemValidForSlot(int index, ItemStack stack1) {
+      return null == stack ? ANIMAL_FOODS.contains(stack1.getItem())
+            : ItemHandlerHelper.canItemStacksStack(stack1, stack);
+   }
+
+   @Override
+   public int getField(int id) {
+      return 0;
+   }
+
+   @Override
+   public void setField(int id, int value) {
+
+   }
+
+   @Override
+   public int getFieldCount() {
+      return 0;
+   }
+
+   @Override
+   public void clear() {
+      stack = null;
+   }
+
+   @Override
+   public String getName() {
+      return "tile.automation.feeder.name";
+   }
+
+   @Override
+   public boolean hasCustomName() {
+      return false;
+   }
 }

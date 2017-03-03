@@ -4,8 +4,9 @@ import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -28,6 +29,7 @@ import plodsoft.automation.renderers.FeederTESR;
 import plodsoft.automation.tileentities.TileEntityFeeder;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockFeeder extends Block {
    public static final String NAME = "feeder";
@@ -38,7 +40,7 @@ public class BlockFeeder extends Block {
 
    public BlockFeeder() {
       super(Material.ROCK);
-      setHardness(3f);
+      setHardness(1.5f);
       setCreativeTab(Automation.Tab);
       setRegistryName(NAME);
       setUnlocalizedName(NAME);
@@ -114,11 +116,61 @@ public class BlockFeeder extends Block {
       TileEntity te = worldIn.getTileEntity(pos);
       if (!(te instanceof TileEntityFeeder))
          return false;
+      TileEntityFeeder tef = (TileEntityFeeder) te;
+      if (null == heldItem) {
+         if (null == tef.stack) {
+            playerIn.addChatComponentMessage(new TextComponentString(
+                  I18n.translateToLocal("text.feeder.noFood")));
+         } else {
+            playerIn.addChatComponentMessage(new TextComponentString(
+               I18n.translateToLocalFormatted("text.feeder.foodAmount",
+                     I18n.translateToLocal(tef.stack.getUnlocalizedName() + ".name"),
+               tef.stack.stackSize)));
+         }
+      } else if (tef.isItemValidForSlot(0, heldItem)) {
+         if (playerIn.capabilities.isCreativeMode) {
+            int org = heldItem.stackSize;
+            tef.setInventorySlotContents(0, heldItem);
+            heldItem.stackSize = org;
+         } else {
+            tef.setInventorySlotContents(0, heldItem);
+            playerIn.setHeldItem(hand, 0 == heldItem.stackSize ? null : heldItem);
+         }
+      }
       return true;
    }
 
    @Override
    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
       return BOUNDS;
+   }
+
+   @Override
+   public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+      List<ItemStack> ret =  super.getDrops(world, pos, state, fortune);
+      TileEntity te = world.getTileEntity(pos);
+      if (!(te instanceof TileEntityFeeder))
+         return ret;
+      ItemStack stack = ((TileEntityFeeder) te).stack;
+      if (null == stack)
+         return ret;
+      // drop at most one stack food
+      if (stack.stackSize > stack.getMaxStackSize())
+         stack.stackSize = stack.getMaxStackSize();
+      ret.add(stack);
+      return ret;
+   }
+
+   @Override
+   public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+   {
+      if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
+      return super.removedByPlayer(state, world, pos, player, willHarvest);
+   }
+   @Override
+   public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool)
+   {
+      super.harvestBlock(world, player, pos, state, te, tool);
+      world.setBlockToAir(pos);
    }
 }

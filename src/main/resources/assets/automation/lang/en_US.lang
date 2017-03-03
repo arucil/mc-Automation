@@ -2,3 +2,6 @@
 tile.feeder.name=Feeder
 
 itemGroup.automation=Automation
+
+text.feeder.noFood=No food
+text.feeder.foodAmount=[%s] * %d
