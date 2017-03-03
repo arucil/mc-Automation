@@ -1,0 +1,16 @@
+[
+{
+  "modid": "automation",
+  "name": "Automation",
+  "description": "Adds several automated machines that make life easier.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["plodsoft"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
