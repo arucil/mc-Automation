@@ -127,6 +127,8 @@ public class BlockFeeder extends Block {
                      I18n.translateToLocal(tef.stack.getUnlocalizedName() + ".name"),
                tef.stack.stackSize)));
          }
+         if (playerIn.isSneaking())
+            tef.resetTimer();
       } else if (tef.isItemValidForSlot(0, heldItem)) {
          if (playerIn.capabilities.isCreativeMode) {
             int org = heldItem.stackSize;

@@ -19,5 +19,9 @@ public abstract class TileEntityTickable extends TileEntity implements ITickable
       }
    }
 
+   public void resetTimer() {
+      delay = 0;
+   }
+
    public abstract void onEntityUpdate();
 }
