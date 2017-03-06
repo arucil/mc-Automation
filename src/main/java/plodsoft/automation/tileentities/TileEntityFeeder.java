@@ -3,24 +3,18 @@ package plodsoft.automation.tileentities;
 import com.google.common.collect.Sets;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -52,17 +46,22 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
             new AxisAlignedBB(pos.add(-RANGE, -2, -RANGE),
                   pos.add(RANGE, 2, RANGE)),
             x -> !(x.isInLove() || x.isChild()) && x.isBreedingItem(stack1));
-      if (!list.isEmpty()) {
-         for (EntityAnimal animal : list) {
-            animal.setInLove(null);
+      int i = list.size() & ~1;
+      if (i != 0) {
+         int flag = 1;
+         while (--i >= 0) {
+            list.get(i).setInLove(null);
             if (--stack1.stackSize <= 0) {
                stack = null;
-               IBlockState state = worldObj.getBlockState(getPos());
-               worldObj.notifyBlockUpdate(getPos(), state, state, 0);
+               flag = 3;
                break;
             }
          }
          markDirty();
+         IBlockState state = worldObj.getBlockState(getPos());
+         // for data update only, flag is 1
+         // for rendering update, flag is 3
+         worldObj.notifyBlockUpdate(getPos(), state, state, flag);
       }
    }
 
@@ -121,14 +120,15 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
       return null;
    }
 
+   // only get called on server
    @Override
    public void setInventorySlotContents(int index, @Nullable ItemStack stack1) {
       markDirty();
+      int flag = 1;
       if (null == stack) {
          stack = stack1.copy();
          stack1.stackSize = 0;
-         IBlockState state = worldObj.getBlockState(getPos());
-         worldObj.notifyBlockUpdate(getPos(), state, state, 0);
+         flag = 3;
       } else {
          int limit = SIZE - stack.stackSize;
          if (stack1.stackSize > limit) {
@@ -139,6 +139,8 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
             stack1.stackSize = 0;
          }
       }
+      IBlockState state = worldObj.getBlockState(getPos());
+      worldObj.notifyBlockUpdate(getPos(), state, state, flag);
    }
 
    @Override

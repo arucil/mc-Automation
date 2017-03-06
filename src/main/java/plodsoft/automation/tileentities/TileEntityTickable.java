@@ -8,11 +8,13 @@ public abstract class TileEntityTickable extends TileEntity implements ITickable
    private int delay0;
 
    public TileEntityTickable(int seconds) {
-      this.delay0 = seconds * 20;
+      this.delay = this.delay0 = seconds * 20;
    }
 
    @Override
    public void update() {
+      if (worldObj.isRemote)
+         return;
       if (--delay <= 0) {
          delay = delay0;
          onEntityUpdate();

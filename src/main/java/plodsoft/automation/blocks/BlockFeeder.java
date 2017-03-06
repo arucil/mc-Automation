@@ -111,25 +111,14 @@ public class BlockFeeder extends Block {
 
    @Override
    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, @Nullable ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-      if (worldIn.isRemote)
+      if (worldIn.isRemote) {
          return true;
+      }
       TileEntity te = worldIn.getTileEntity(pos);
       if (!(te instanceof TileEntityFeeder))
          return false;
       TileEntityFeeder tef = (TileEntityFeeder) te;
-      if (null == heldItem) {
-         if (null == tef.stack) {
-            playerIn.addChatComponentMessage(new TextComponentString(
-                  I18n.translateToLocal("text.feeder.noFood")));
-         } else {
-            playerIn.addChatComponentMessage(new TextComponentString(
-               I18n.translateToLocalFormatted("text.feeder.foodAmount",
-                     I18n.translateToLocal(tef.stack.getUnlocalizedName() + ".name"),
-               tef.stack.stackSize)));
-         }
-         if (playerIn.isSneaking())
-            tef.resetTimer();
-      } else if (tef.isItemValidForSlot(0, heldItem)) {
+     if (null != heldItem && tef.isItemValidForSlot(0, heldItem)) {
          if (playerIn.capabilities.isCreativeMode) {
             int org = heldItem.stackSize;
             tef.setInventorySlotContents(0, heldItem);
@@ -137,6 +126,22 @@ public class BlockFeeder extends Block {
          } else {
             tef.setInventorySlotContents(0, heldItem);
             playerIn.setHeldItem(hand, 0 == heldItem.stackSize ? null : heldItem);
+         }
+         playerIn.addChatComponentMessage(new TextComponentString(
+               I18n.translateToLocalFormatted("text.feeder.foodAmount",
+                     I18n.translateToLocal(tef.stack.getUnlocalizedName() + ".name"),
+                     tef.stack.stackSize)));
+      } else if (null == heldItem && playerIn.isSneaking()) {
+        tef.resetTimer();
+     } else {
+         if (null == tef.stack) {
+            playerIn.addChatComponentMessage(new TextComponentString(
+                  I18n.translateToLocal("text.feeder.noFood")));
+         } else {
+            playerIn.addChatComponentMessage(new TextComponentString(
+                  I18n.translateToLocalFormatted("text.feeder.foodAmount",
+                        I18n.translateToLocal(tef.stack.getUnlocalizedName() + ".name"),
+                        tef.stack.stackSize)));
          }
       }
       return true;
