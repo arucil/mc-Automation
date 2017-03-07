@@ -44,7 +44,7 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
       if (null == stack1)
          return;
       List<EntityAnimal> list = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
-            new AxisAlignedBB(pos.add(-RANGE, -2, -RANGE),
+            new AxisAlignedBB(pos.add(-RANGE, -1, -RANGE),
                   pos.add(RANGE, 2, RANGE)),
             x -> !x.isInLove()
                   // !x.isChild() won't work, when growingAge is negative, it means
