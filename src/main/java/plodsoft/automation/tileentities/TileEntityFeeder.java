@@ -45,10 +45,10 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
          return;
       List<EntityAnimal> list = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
             new AxisAlignedBB(pos.add(-RANGE, -1, -RANGE),
-                  pos.add(RANGE, 2, RANGE)),
+                  pos.add(RANGE + 1, 2, RANGE + 1)),
             x -> !x.isInLove()
-                  // !x.isChild() won't work, when growingAge is negative, it means
-                  // the animals are in breeding cool-down period.
+                  // !x.isChild() won't work, when growingAge is positive, it means
+                  // the animals are in breeding cooldown.
                   && x.getGrowingAge() == 0
                   && x.isBreedingItem(stack1));
       int i = list.size() & ~1;

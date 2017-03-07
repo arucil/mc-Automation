@@ -12,11 +12,16 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModBlocks {
    public static Block blockFeeder;
+   public static Block blockButcher;
 
    public static void preInit(FMLPreInitializationEvent e) {
       blockFeeder = new BlockFeeder();
-      if (e.getSide() == Side.CLIENT)
+      blockButcher = new BlockButcher();
+
+      if (e.getSide() == Side.CLIENT) {
          BlockFeeder.initModel();
+         BlockButcher.initModel();
+      }
    }
 
    public static void init(FMLInitializationEvent e) {
@@ -29,5 +34,15 @@ public class ModBlocks {
             'P', "plankWood",
             'R', Blocks.REDSTONE_BLOCK,
             'C', Blocks.CHEST));
+
+      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockButcher),
+            "ISI",
+            "PRP",
+            "PHP",
+            'I', Items.IRON_INGOT,
+            'S', Items.IRON_SWORD,
+            'P', "plankWood",
+            'R', Blocks.REDSTONE_BLOCK,
+            'H', Blocks.HOPPER));
    }
 }
