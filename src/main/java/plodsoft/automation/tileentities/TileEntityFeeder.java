@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -45,7 +46,11 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
       List<EntityAnimal> list = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
             new AxisAlignedBB(pos.add(-RANGE, -2, -RANGE),
                   pos.add(RANGE, 2, RANGE)),
-            x -> !(x.isInLove() || x.isChild()) && x.isBreedingItem(stack1));
+            x -> !x.isInLove()
+                  // !x.isChild() won't work, when growingAge is negative, it means
+                  // the animals are in breeding cool-down period.
+                  && x.getGrowingAge() == 0
+                  && x.isBreedingItem(stack1));
       int i = list.size() & ~1;
       if (i != 0) {
          int flag = 1;

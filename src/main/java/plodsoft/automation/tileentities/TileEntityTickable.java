@@ -13,7 +13,7 @@ public abstract class TileEntityTickable extends TileEntity implements ITickable
 
    @Override
    public void update() {
-      if (worldObj.isRemote)
+      if (isInvalid() || worldObj.isRemote)
          return;
       if (--delay <= 0) {
          delay = delay0;

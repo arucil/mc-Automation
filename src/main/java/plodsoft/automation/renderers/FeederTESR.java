@@ -18,7 +18,7 @@ public class FeederTESR extends TileEntitySpecialRenderer<TileEntityFeeder> {
          GlStateManager.enableLighting();
          GlStateManager.pushMatrix();
 
-         GlStateManager.translate(x + .5, y + .1875, z + .5);
+         GlStateManager.translate(x + .5, y + .25, z + .5);
          GlStateManager.scale(.4f, .4f, .4f);
          GlStateManager.rotate(90, -1, 0, 0);
          GlStateManager.rotate(ANGLES[te.getBlockMetadata()], 0, 0, 1);

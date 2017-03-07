@@ -168,6 +168,7 @@ public class BlockFeeder extends Block {
       return ret;
    }
 
+   // copy from BlockFlowerPot
    @Override
    public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
    {
