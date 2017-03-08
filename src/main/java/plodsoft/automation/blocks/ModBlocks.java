@@ -13,14 +13,17 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 public class ModBlocks {
    public static Block blockFeeder;
    public static Block blockButcher;
+   public static Block blockLumberjack;
 
    public static void preInit(FMLPreInitializationEvent e) {
       blockFeeder = new BlockFeeder();
       blockButcher = new BlockButcher();
+      blockLumberjack = new BlockLumberjack();
 
       if (e.getSide() == Side.CLIENT) {
          BlockFeeder.initModel();
          BlockButcher.initModel();
+         BlockLumberjack.initModel();
       }
    }
 
@@ -44,5 +47,15 @@ public class ModBlocks {
             'P', "plankWood",
             'R', Blocks.REDSTONE_BLOCK,
             'H', Blocks.HOPPER));
+
+      GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockLumberjack),
+            "IAI",
+            "PRP",
+            "PSP",
+            'I', Items.IRON_INGOT,
+            'P', "plankWood",
+            'A', Items.IRON_AXE,
+            'R', Blocks.REDSTONE_BLOCK,
+            'S', Blocks.SAPLING));
    }
 }

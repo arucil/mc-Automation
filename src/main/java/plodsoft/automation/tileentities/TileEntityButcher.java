@@ -61,22 +61,4 @@ public class TileEntityButcher extends TileEntityTickable {
             item.setEntityItemStack(stack);
       }
    }
-
-   // copy from TileEntityHopper
-   private IInventory getInventoryAtFacing(EnumFacing facing) {
-      BlockPos blockpos = new BlockPos(pos.getX() + facing.getFrontOffsetX(),
-            pos.getY() + facing.getFrontOffsetY(),
-            pos.getZ() + facing.getFrontOffsetZ());
-      Block block = worldObj.getBlockState(blockpos).getBlock();
-
-      if (block.hasTileEntity()) {
-         TileEntity tileentity = worldObj.getTileEntity(blockpos);
-
-         if (tileentity instanceof TileEntityChest && block instanceof BlockChest)
-            return ((BlockChest) block).getContainer(worldObj, blockpos, true);
-         if (tileentity instanceof IInventory)
-            return (IInventory) tileentity;
-      }
-      return null;
-   }
 }

@@ -1,6 +1,7 @@
 
 tile.feeder.name=Feeder
 tile.butcher.name=Butcher
+tile.lumberjack.name=Lumberjack
 
 itemGroup.automation=Automation
 

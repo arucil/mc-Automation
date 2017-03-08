@@ -6,7 +6,7 @@
       "up": "automation:blocks/butcher_top",
       "east": "automation:blocks/butcher_side",
       "west": "automation:blocks/butcher_side",
-      "north": "automation:blocks/butcher_face",
+      "north": "automation:blocks/chest",
       "south": "automation:blocks/butcher_side"
    }
 }
