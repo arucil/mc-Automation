@@ -90,7 +90,7 @@ public class BlockLumberjack extends Block {
       if (null == heldItem && playerIn.isSneaking()) {
          ((TileEntityTickable) te).resetTimer();
       }
-      return true;
+      return false;
    }
 
    @Override
@@ -98,12 +98,12 @@ public class BlockLumberjack extends Block {
       if (worldIn.isRemote)
          return;
       TileEntity te = worldIn.getTileEntity(pos);
-      if (!(te instanceof TileEntity))
+      if (!(te instanceof TileEntityLumberjack))
          return;
       EnumFacing facing = state.getValue(FACING);
       Block block = worldIn.getBlockState(pos.add(facing.getFrontOffsetX(),
             0, facing.getFrontOffsetZ())).getBlock();
-      if (block == Blocks.LEAVES || block == Blocks.LEAVES2) {
+      if (block == Blocks.LOG || block == Blocks.LOG2) {
          ((TileEntityTickable) te).resetTimer();
       }
    }

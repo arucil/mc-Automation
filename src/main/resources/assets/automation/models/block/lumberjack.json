@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+      "particle": "automation:blocks/bottom",
+      "down": "automation:blocks/bottom",
+      "up": "automation:blocks/lumberjack_top",
+      "east": "automation:blocks/side",
+      "west": "automation:blocks/side",
+      "north": "automation:blocks/lumberjack_face",
+      "south": "automation:blocks/chest"
+   }
+}

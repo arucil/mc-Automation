@@ -1,21 +1,15 @@
 package plodsoft.automation.tileentities;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSapling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-
-import java.util.List;
 
 public class TileEntityLumberjack extends TileEntityTickable {
    private static final int RANGE = 5;
@@ -31,7 +25,7 @@ public class TileEntityLumberjack extends TileEntityTickable {
       BlockPos frontPos = pos.add(front.getFrontOffsetX(), 0, front.getFrontOffsetZ());
       Block block = worldObj.getBlockState(frontPos).getBlock();
       if (block == Blocks.AIR) {
-         if (!Blocks.SAPLING.canPlaceBlockAt(worldObj, pos))
+         if (!Blocks.SAPLING.canPlaceBlockAt(worldObj, frontPos))
             return;
          IInventory inv = getInventoryAtFacing(front.getOpposite());
          if (null == inv)
