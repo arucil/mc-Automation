@@ -25,6 +25,12 @@ public class Config {
       public static int RangeY;
    }
 
+   public static class Farmer {
+      public static final String CATEGORY = "farmer";
+
+      public static int Range;
+   }
+
    public static void load(FMLPreInitializationEvent e) {
       Configuration cfg = new Configuration(e.getSuggestedConfigurationFile());
       cfg.load();
@@ -40,6 +46,9 @@ public class Config {
       // lumberjack
       Lumberjack.Range = cfg.getInt("range", Lumberjack.CATEGORY, 5, 1, 30, "");
       Lumberjack.RangeY = cfg.getInt("rangeY", Lumberjack.CATEGORY, 15, 1, 100, "");
+
+      // farmer
+      Lumberjack.Range = cfg.getInt("range", Farmer.CATEGORY, 4, 1, 8, "");
 
       if (cfg.hasChanged())
          cfg.save();

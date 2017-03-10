@@ -41,6 +41,7 @@ public class BlockFeeder extends Block {
    public BlockFeeder() {
       super(Material.ROCK);
       setHardness(1.5f);
+      setResistance(30f);
       setCreativeTab(Automation.Tab);
       setRegistryName(NAME);
       setUnlocalizedName(NAME);

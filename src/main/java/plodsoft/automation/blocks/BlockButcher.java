@@ -31,6 +31,7 @@ public class BlockButcher extends Block {
    public BlockButcher() {
       super(Material.ROCK);
       setHardness(1.5f);
+      setResistance(30f);
       setCreativeTab(Automation.Tab);
       setRegistryName(NAME);
       setUnlocalizedName(NAME);

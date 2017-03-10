@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+      "particle": "automation:blocks/bottom",
+      "down": "automation:blocks/bottom",
+      "up": "automation:blocks/farmer_top",
+      "east": "automation:blocks/farmer_side",
+      "west": "automation:blocks/farmer_side",
+      "north": "automation:blocks/chest",
+      "south": "automation:blocks/farmer_side"
+   }
+}
