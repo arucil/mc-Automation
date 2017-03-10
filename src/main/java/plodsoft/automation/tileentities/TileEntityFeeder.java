@@ -14,14 +14,13 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.items.ItemHandlerHelper;
+import plodsoft.automation.Config;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 
 public class TileEntityFeeder extends TileEntityTickable implements IInventory {
-   public static final int RANGE = 4;
-   public static final int SIZE = 4096;
 
    private static final Set<Item> ANIMAL_FOODS = Sets.newHashSet(new Item[] {
          Items.GOLDEN_APPLE, Items.GOLDEN_CARROT, Items.BEETROOT,
@@ -44,8 +43,8 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
       if (null == stack1)
          return;
       List<EntityAnimal> list = worldObj.getEntitiesWithinAABB(EntityAnimal.class,
-            new AxisAlignedBB(pos.add(-RANGE, -1, -RANGE),
-                  pos.add(RANGE + 1, 2, RANGE + 1)),
+            new AxisAlignedBB(pos.add(-Config.Feeder.Range, -1, -Config.Feeder.Range),
+                  pos.add(Config.Feeder.Range + 1, 2, Config.Feeder.Range + 1)),
             x -> !x.isInLove()
                   // !x.isChild() won't work, when growingAge is positive, it means
                   // the animals are in breeding cooldown.
@@ -135,7 +134,7 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
          stack1.stackSize = 0;
          flag = 3;
       } else {
-         int limit = SIZE - stack.stackSize;
+         int limit = Config.Feeder.InvSize - stack.stackSize;
          if (stack1.stackSize > limit) {
             stack.stackSize += limit;
             stack1.stackSize -= limit;
@@ -150,7 +149,7 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
 
    @Override
    public int getInventoryStackLimit() {
-      return SIZE;
+      return Config.Feeder.InvSize;
    }
 
    @Override

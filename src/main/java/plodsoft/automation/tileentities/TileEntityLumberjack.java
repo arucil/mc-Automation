@@ -10,10 +10,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityHopper;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import plodsoft.automation.Config;
 
 public class TileEntityLumberjack extends TileEntityTickable {
-   private static final int RANGE = 5;
-   private static final int RANGE_Y = 15;
 
    public TileEntityLumberjack() {
       super(60);
@@ -46,10 +45,10 @@ public class TileEntityLumberjack extends TileEntityTickable {
          if (null == inv)
             return;
          int y0 = pos.getY();
-         int z0 = pos.getZ() - RANGE;
-         for (int x = pos.getX() - RANGE, x1 = x + 2 * RANGE + 1; x <= x1; ++x) {
-            for (int y = y0, y1 = y + RANGE_Y; y <= y1; ++y) {
-               for (int z = z0, z1 = z + RANGE * 2 + 1; z <= z1; ++z) {
+         int z0 = pos.getZ() - Config.Lumberjack.Range;
+         for (int x = pos.getX() - Config.Lumberjack.Range, x1 = x + 2 * Config.Lumberjack.Range + 1; x <= x1; ++x) {
+            for (int y = y0, y1 = y + Config.Lumberjack.RangeY; y <= y1; ++y) {
+               for (int z = z0, z1 = z + Config.Lumberjack.Range * 2 + 1; z <= z1; ++z) {
                   BlockPos pos1 = new BlockPos(x, y, z);
                   IBlockState state = worldObj.getBlockState(pos1);
                   block = state.getBlock();

@@ -16,10 +16,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.FakePlayerFactory;
+import plodsoft.automation.Config;
 
 public class TileEntityButcher extends TileEntityTickable {
-   public static final int LIMIT = 5;
-   public static final int RANGE = 4;
 
    private static FakePlayer fakePlayer;
 
@@ -32,10 +31,10 @@ public class TileEntityButcher extends TileEntityTickable {
       FakePlayer fake = fakePlayer;
       if (null == fake)
          fakePlayer = fake = FakePlayerFactory.getMinecraft((WorldServer) worldObj);
-      int i = LIMIT;
+      int i = Config.Butcher.Limit;
       for (EntityAnimal animal : worldObj.getEntitiesWithinAABB(EntityAnimal.class,
-            new AxisAlignedBB(pos.add(-RANGE, -1, -RANGE),
-                  pos.add(RANGE + 1, 2, RANGE + 1)),
+            new AxisAlignedBB(pos.add(-Config.Butcher.Range, -1, -Config.Butcher.Range),
+                  pos.add(Config.Butcher.Range + 1, 2, Config.Butcher.Range + 1)),
                   x -> x.getGrowingAge() >= 0)) {
          animal.setHealth(.5f);
          animal.attackEntityFrom(DamageSource.causePlayerDamage(fake), 400f);
@@ -51,8 +50,8 @@ public class TileEntityButcher extends TileEntityTickable {
       facing = facing.getOpposite();
       // collect dropped items
       for (EntityItem item : worldObj.getEntitiesWithinAABB(EntityItem.class,
-            new AxisAlignedBB(pos.add(-RANGE - 2, -3, -RANGE - 2),
-                  pos.add(RANGE + 3, 5, RANGE + 3)))) {
+            new AxisAlignedBB(pos.add(-Config.Butcher.Range - 2, -3, -Config.Butcher.Range - 2),
+                  pos.add(Config.Butcher.Range + 3, 5, Config.Butcher.Range + 3)))) {
          ItemStack stack = TileEntityHopper.putStackInInventoryAllSlots(inv, item.getEntityItem(),
                facing);
          if (stack == null || stack.stackSize == 0)

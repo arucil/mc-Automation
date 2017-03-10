@@ -29,6 +29,8 @@ public class Automation {
    @Mod.EventHandler
    public void preInit(FMLPreInitializationEvent e) {
       ModBlocks.preInit(e);
+
+      Config.load(e);
    }
 
    @Mod.EventHandler
