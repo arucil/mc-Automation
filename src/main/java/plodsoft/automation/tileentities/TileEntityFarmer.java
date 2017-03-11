@@ -53,7 +53,7 @@ public class TileEntityFarmer extends TileEntityTickable {
                block = state.getBlock();
 
                if (Blocks.DIRT == block || Blocks.GRASS == block || Blocks.GRASS_PATH == block) {
-                  for (int i = inv.getSizeInventory(); --i >= 0; ) {
+                  for (int i = 0, j = inv.getSizeInventory(); i < j; ++i) {
                      ItemStack stack = inv.getStackInSlot(i);
                      if (stack != null && stack.stackSize != 0
                            && stack.getItem() instanceof ItemHoe) {
@@ -64,7 +64,7 @@ public class TileEntityFarmer extends TileEntityTickable {
                      }
                   }
                } else if (Blocks.FARMLAND == block) {
-                  for (int i = inv.getSizeInventory(); --i >= 0; ) {
+                  for (int i = 0, j = inv.getSizeInventory(); i < j; ++i) {
                      ItemStack stack = inv.getStackInSlot(i);
                      if (stack != null && stack.stackSize != 0) {
                         Item item = stack.getItem();
@@ -92,7 +92,7 @@ public class TileEntityFarmer extends TileEntityTickable {
                      }
                   }
                } else if (Blocks.SOUL_SAND == block) {
-                  for (int i = inv.getSizeInventory(); --i >= 0; ) {
+                  for (int i = 0, j = inv.getSizeInventory(); i < j; ++i) {
                      ItemStack stack = inv.getStackInSlot(i);
                      if (stack != null && stack.stackSize != 0
                            && Items.NETHER_WART == stack.getItem()) {

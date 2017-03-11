@@ -29,7 +29,7 @@ public class TileEntityLumberjack extends TileEntityTickable {
          IInventory inv = getInventoryAtFacing(front.getOpposite());
          if (null == inv)
             return;
-         for (int i = inv.getSizeInventory(); --i >= 0; ) {
+         for (int i = 0, j = inv.getSizeInventory(); i < j; ++i) {
             ItemStack stack = inv.getStackInSlot(i);
             if (stack != null && stack.stackSize != 0
                   && stack.getItem() == Item.getItemFromBlock(Blocks.SAPLING)) {
