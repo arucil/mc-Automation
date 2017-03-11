@@ -48,7 +48,7 @@ public class Config {
       Lumberjack.RangeY = cfg.getInt("rangeY", Lumberjack.CATEGORY, 15, 1, 100, "");
 
       // farmer
-      Lumberjack.Range = cfg.getInt("range", Farmer.CATEGORY, 4, 1, 8, "");
+      Farmer.Range = cfg.getInt("range", Farmer.CATEGORY, 4, 1, 8, "");
 
       if (cfg.hasChanged())
          cfg.save();
