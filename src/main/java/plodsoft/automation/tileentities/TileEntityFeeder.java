@@ -62,10 +62,10 @@ public class TileEntityFeeder extends TileEntityTickable implements IInventory {
             }
          }
          markDirty();
-         IBlockState state = worldObj.getBlockState(getPos());
+         IBlockState state = worldObj.getBlockState(pos);
          // for data update only, flag is 1
          // for rendering update, flag is 3
-         worldObj.notifyBlockUpdate(getPos(), state, state, flag);
+         worldObj.notifyBlockUpdate(pos, state, state, flag);
       }
    }
 

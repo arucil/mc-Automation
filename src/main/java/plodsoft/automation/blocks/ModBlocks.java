@@ -17,22 +17,23 @@ public class ModBlocks {
    public static Block blockButcher;
    public static Block blockLumberjack;
    public static Block blockFarmer;
+   public static Block blockQuarry;
 
-   public static void preInit(FMLPreInitializationEvent e) {
+   public static void preInit() {
       blockFeeder = new BlockFeeder();
       blockButcher = new BlockButcher();
       blockLumberjack = new BlockLumberjack();
       blockFarmer = new BlockFarmer();
+      blockQuarry = new BlockQuarry();
 
-      if (e.getSide() == Side.CLIENT) {
-         BlockFeeder.initModel();
-         BlockButcher.initModel();
-         BlockLumberjack.initModel();
-         BlockFarmer.initModel();
-      }
+      BlockFeeder.initModel();
+      BlockButcher.initModel();
+      BlockLumberjack.initModel();
+      BlockFarmer.initModel();
+      BlockQuarry.initModel();
    }
 
-   public static void init(FMLInitializationEvent e) {
+   public static void init() {
       GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockFeeder),
             "IDI",
             "PRP",
@@ -72,5 +73,16 @@ public class ModBlocks {
             'R', Blocks.REDSTONE_BLOCK,
             'W', Items.WATER_BUCKET,
             'K', Blocks.LIT_PUMPKIN));
+
+      GameRegistry.addShapedRecipe(new ItemStack(blockQuarry),
+            "EPE",
+            "IRI",
+            "GCG",
+            'E', Items.ENDER_PEARL,
+            'P', Items.DIAMOND_PICKAXE,
+            'I', Items.IRON_INGOT,
+            'R', Blocks.REDSTONE_BLOCK,
+            'G', Items.GOLD_INGOT,
+            'C', Blocks.CHEST);
    }
 }

@@ -1,5 +1,7 @@
 package plodsoft.automation;
 
+import plodsoft.automation.gui.GuiHandler;
+import plodsoft.automation.items.ModItems;
 import plodsoft.automation.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
@@ -28,14 +30,16 @@ public class Automation {
 
    @Mod.EventHandler
    public void preInit(FMLPreInitializationEvent e) {
-      ModBlocks.preInit(e);
+      ModBlocks.preInit();
+      ModItems.preInit();
 
       Config.load(e);
    }
 
    @Mod.EventHandler
    public void init(FMLInitializationEvent e) {
-      ModBlocks.init(e);
+      ModBlocks.init();
+      ModItems.init();
 
       NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
    }

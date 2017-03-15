@@ -3,6 +3,7 @@ package plodsoft.automation.tileentities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -17,6 +18,10 @@ public abstract class TileEntityTickable extends TileEntity implements ITickable
       this.delay = this.delay0 = seconds * 20;
    }
 
+   public TileEntityTickable(short halfSec) {
+      this.delay = this.delay0 = halfSec * 10;
+   }
+
    @Override
    public void update() {
       if (isInvalid() || worldObj.isRemote)
@@ -29,6 +34,19 @@ public abstract class TileEntityTickable extends TileEntity implements ITickable
 
    public void resetTimer() {
       delay = 0;
+   }
+
+   @Override
+   public void readFromNBT(NBTTagCompound compound) {
+      super.readFromNBT(compound);
+      delay = compound.getInteger("delay");
+   }
+
+   @Override
+   public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+      super.writeToNBT(compound);
+      compound.setInteger("delay", delay);
+      return compound;
    }
 
    public abstract void onEntityUpdate();
