@@ -159,7 +159,6 @@ public class TileEntityQuarry extends TileEntityTickable {
                         for (int j = ItemUpgradeFilter.SIZE; --j >= 0; ) {
                            ItemStack stack1 = handler.getStackInSlot(j);
                            if (stack1 != null) {
-                              System.out.println("add " + stack1);
                               filter.add(new ItemUpgradeFilter.ItemComparer(stack1));
                            }
                         }

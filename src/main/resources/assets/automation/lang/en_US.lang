@@ -4,6 +4,7 @@ tile.butcher.name=Butcher
 tile.lumberjack.name=Lumberjack
 tile.farmer.name=Farmer
 tile.quarry.name=Quarry
+tile.cobblestoneInf.name=Cobblestone Infinity
 
 item.upgradeObsidian.name=Obsidian Upgrade
 item.upgradeEnchant.name=Enchantment Upgrade

@@ -1,15 +1,10 @@
 package plodsoft.automation.blocks;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 
 public class ModBlocks {
@@ -18,6 +13,7 @@ public class ModBlocks {
    public static Block blockLumberjack;
    public static Block blockFarmer;
    public static Block blockQuarry;
+   public static Block blockCbChest;
 
    public static void preInit() {
       blockFeeder = new BlockFeeder();
@@ -25,12 +21,14 @@ public class ModBlocks {
       blockLumberjack = new BlockLumberjack();
       blockFarmer = new BlockFarmer();
       blockQuarry = new BlockQuarry();
+      blockCbChest = new BlockCobblestoneInfinity();
 
       BlockFeeder.initModel();
       BlockButcher.initModel();
       BlockLumberjack.initModel();
       BlockFarmer.initModel();
       BlockQuarry.initModel();
+      BlockCobblestoneInfinity.initModel();
    }
 
    public static void init() {
@@ -84,5 +82,16 @@ public class ModBlocks {
             'R', Blocks.REDSTONE_BLOCK,
             'G', Items.GOLD_INGOT,
             'C', Blocks.CHEST);
+
+      GameRegistry.addShapedRecipe(new ItemStack(blockCbChest),
+            "WPL",
+            "CRC",
+            "CHC",
+            'W', Items.WATER_BUCKET,
+            'L', Items.LAVA_BUCKET,
+            'P', Items.IRON_PICKAXE,
+            'C', Blocks.COBBLESTONE,
+            'R', Blocks.REDSTONE_BLOCK,
+            'H', Blocks.CHEST);
    }
 }

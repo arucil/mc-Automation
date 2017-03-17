@@ -1,0 +1,12 @@
+{
+   "parent": "block/cube",
+   "textures": {
+      "particle": "automation:blocks/bottom",
+      "down": "automation:blocks/bottom",
+      "up": "automation:blocks/cbsInf_top",
+      "east": "automation:blocks/cbsInf_side",
+      "west": "automation:blocks/cbsInf_side",
+      "north": "automation:blocks/cbsInf_side",
+      "south": "automation:blocks/cbsInf_side"
+   }
+}
