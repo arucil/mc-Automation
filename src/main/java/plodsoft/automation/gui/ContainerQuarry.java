@@ -27,6 +27,13 @@ public class ContainerQuarry extends Container {
    }
 
    @Override
+   public void addListener(IContainerListener listener) {
+      super.addListener(listener);
+      listener.sendProgressBarUpdate(this, 0, burnTime = te.burnTime);
+      listener.sendProgressBarUpdate(this, 1, totalBurnTime = te.totalBurnTime);
+   }
+
+   @Override
    public void detectAndSendChanges() {
       super.detectAndSendChanges();
 
@@ -53,7 +60,7 @@ public class ContainerQuarry extends Container {
       }
    }
 
-   private void addPlayerSlots(IInventory playerInventory) {
+    void addPlayerSlots(IInventory playerInventory) {
       // Slots for the main inventory
       for (int l = 0; l < 3; ++l) {
          for (int j1 = 0; j1 < 9; ++j1) {

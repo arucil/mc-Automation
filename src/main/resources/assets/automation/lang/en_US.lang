@@ -5,6 +5,10 @@ tile.lumberjack.name=Lumberjack
 tile.farmer.name=Farmer
 tile.quarry.name=Quarry
 
+item.upgradeObsidian.name=Obsidian Upgrade
+item.upgradeEnchant.name=Enchantment Upgrade
+item.upgradeFilter.name=Filter Upgrade
+
 itemGroup.automation=Automation
 
 text.feeder.noFood=No food

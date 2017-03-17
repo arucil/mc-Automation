@@ -15,13 +15,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.items.ItemStackHandler;
 import plodsoft.automation.Automation;
 import plodsoft.automation.gui.GuiHandler;
 import plodsoft.automation.tileentities.TileEntityQuarry;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 public class BlockQuarry extends Block {
    public static final String NAME = "quarry";
@@ -87,5 +90,34 @@ public class BlockQuarry extends Block {
          return false;
       playerIn.openGui(Automation.instance, GuiHandler.GUI_QUARRY_ID, worldIn, pos.getX(), pos.getY(), pos.getZ());
       return true;
+   }
+
+   @Override
+   public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+      List<ItemStack> ret =  super.getDrops(world, pos, state, fortune);
+      TileEntity te = world.getTileEntity(pos);
+      if (!(te instanceof TileEntityQuarry))
+         return ret;
+      ItemStackHandler handler = ((TileEntityQuarry) te).handler;
+      for (int i = TileEntityQuarry.SIZE; --i >= 0; ) {
+         ItemStack stack = handler.getStackInSlot(i);
+         if (stack != null)
+            ret.add(stack);
+      }
+      return ret;
+   }
+
+   // copy from BlockFlowerPot
+   @Override
+   public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest)
+   {
+      if (willHarvest) return true; //If it will harvest, delay deletion of the block until after getDrops
+      return super.removedByPlayer(state, world, pos, player, willHarvest);
+   }
+   @Override
+   public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te, ItemStack tool)
+   {
+      super.harvestBlock(world, player, pos, state, te, tool);
+      world.setBlockToAir(pos);
    }
 }
