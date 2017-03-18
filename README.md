@@ -18,12 +18,14 @@ Automated tree planting & lumbering.
 Automated mining.
 
 ## cobblestone infinity
-Get cobblestones conveniently anytime.
+Getting cobblestones conveniently anytime.
 
 # Items
 
 ## quarry upgrades
 Augment quarry functionality.
+### obsidian upgrade
+harvesting lava as obsidian.
 ### fortune enchantment upgrade
 ### silk-touch enchantment upgrade
 ### filter upgrade
