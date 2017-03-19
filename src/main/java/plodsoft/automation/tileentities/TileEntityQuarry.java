@@ -166,10 +166,15 @@ public class TileEntityQuarry extends TileEntityTickable {
                   }
                }
 
+               // find minable block
                BlockPos pos1 = new BlockPos(x, y, z);
                IBlockState state = worldObj.getBlockState(pos1);
                Block block = state.getBlock();
-               while (Blocks.AIR == block || block.getBlockHardness(state, worldObj, pos1) < 0) {
+               while (Blocks.AIR == block || block.getBlockHardness(state, worldObj, pos1) < 0
+                     || block instanceof BlockLiquid) {
+                  if (obsidian && block.getMaterial(state) == Material.LAVA
+                        && state.getValue(BlockLiquid.LEVEL) == 0)
+                     break;
                   if (--x < x0) {
                      x = x0 + 15;
                      if (--z < z0) {
@@ -186,15 +191,14 @@ public class TileEntityQuarry extends TileEntityTickable {
                facing = facing.getOpposite();
                if (Y_OVER != y) {
                   if (obsidian && block.getMaterial(state) == Material.LAVA) {
-                     if (state.getValue(BlockLiquid.LEVEL) == 0) {
-                        worldObj.destroyBlock(pos1, false);
-                        if (!filter.contains(ItemUpgradeFilter.ItemComparer.OBSIDIAN)) {
-                           ItemStack stack1 = TileEntityHopper.putStackInInventoryAllSlots(inv,
-                                 new ItemStack(Blocks.OBSIDIAN), facing);
-                           if (null != stack1 && stack1.stackSize != 0) {
-                              worldObj.spawnEntityInWorld(new EntityItem(worldObj, pos1.getX(),
-                                    pos1.getY(), pos1.getZ(), stack1));
-                           }
+                     // level must be 0
+                     worldObj.destroyBlock(pos1, false);
+                     if (!filter.contains(ItemUpgradeFilter.ItemComparer.OBSIDIAN)) {
+                        ItemStack stack1 = TileEntityHopper.putStackInInventoryAllSlots(inv,
+                              new ItemStack(Blocks.OBSIDIAN), facing);
+                        if (null != stack1 && stack1.stackSize != 0) {
+                           worldObj.spawnEntityInWorld(new EntityItem(worldObj, pos1.getX(),
+                                 pos1.getY(), pos1.getZ(), stack1));
                         }
                      }
                   } else if (FluidRegistry.lookupFluidForBlock(block) == null

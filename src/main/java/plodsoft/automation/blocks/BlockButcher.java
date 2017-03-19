@@ -84,7 +84,7 @@ public class BlockButcher extends Block {
       }
       TileEntity te = worldIn.getTileEntity(pos);
       if (!(te instanceof TileEntityButcher))
-         return false;
+         return true;
       if (null == heldItem && playerIn.isSneaking()) {
          ((TileEntityTickable) te).resetTimer();
       }

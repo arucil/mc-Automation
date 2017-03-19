@@ -1,5 +1,8 @@
 package plodsoft.automation.tileentities;
 
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.inventory.IInventory;
@@ -27,12 +30,12 @@ public class TileEntityButcher extends TileEntityTickable {
       if (null == fake)
          fakePlayer = fake = FakePlayerFactory.getMinecraft((WorldServer) worldObj);
       int i = Config.Butcher.Limit;
-      for (EntityAnimal animal : worldObj.getEntitiesWithinAABB(EntityAnimal.class,
+      for (EntityLiving mob : worldObj.getEntitiesWithinAABB(EntityLiving.class,
             new AxisAlignedBB(pos.add(-Config.Butcher.Range, -1, -Config.Butcher.Range),
                   pos.add(Config.Butcher.Range + 1, 2, Config.Butcher.Range + 1)),
-                  x -> x.getGrowingAge() >= 0)) {
-         animal.setHealth(.5f);
-         animal.attackEntityFrom(DamageSource.causePlayerDamage(fake), 400f);
+                  x -> !(x instanceof EntityAgeable) || ((EntityAgeable) x).getGrowingAge() >= 0)) {
+         mob.setHealth(.5f);
+         mob.attackEntityFrom(DamageSource.causePlayerDamage(fake), 400f);
          if (--i <= 0)
             break;
       }
